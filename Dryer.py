@@ -15,11 +15,11 @@ def setupGPIO():
 def isDryerRunning():
 	isRunning = False
 	t0 = time.time()
-	# Check once a second for 30 seconds
+	# Check once every 50ms for 30 seconds
 	while((time.time() - t0) < 30):
 		if(not GPIO.input(17)):
 			return True
-		time.sleep(1)
+		time.sleep(0.05)
 	
 	return isRunning
 	
@@ -43,7 +43,8 @@ def main():
 	
 		t0 = time.time()
 		isRunning = True
-		while(((time.time()-t0) < 9000) and isRunning):
+		# Run for no longer than 2 hours
+		while(((time.time()-t0) < 7200) and isRunning):
 			isRunning = isDryerRunning()
 			time.sleep(30)
 
